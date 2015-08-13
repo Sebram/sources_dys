@@ -1,0 +1,21 @@
+xseparatex///impress///dysimpress///dys///&impress.js///Create nice sliders and web pages with Dys interface and Impress framework !///3000///false///0///0///0///0///0///0///null///null///3///beige///xseparatex///impress///its-in-3d///dys///<h1>DYS mean</h1>///<h1><b>Do Your Slides !</b></h1>///3000///false///193///-1167///-1000///-20///0///0///null///null///1///beige///xseparatex///impress///simple///dys///A simple///Java desktop interface!///3000///false///500///0//////90///0///0///null///null///3///beige///xseparatex///impress///images///dys///<span style="color:blue">add</span>///<h1 style="color:blue">images</h1>///3000///false///1973///0///-3000///0///180///0///null///art-bramse.svg///1///beige///xseparatex///impress///bgcolors///dys///choose///<h2>Background colors</h2>///3000///false///3062///0//////93///0///80///rgb(204,204,255)///null///3///beige///xseparatex///impress///axis///dys///<h1>axis</h1>///Choose X , Y and Z axis  to get slides positioned where you want  and then create beautifull movements .///3000///false///0///1315///-500///190///90///0///null///null///null///beige///xseparatex///impress///rotate///dys///<h1>rotate</h1>///<h2>Choose X and Y rotations</h2>
+and create powerfull 3d effects and perspective movements !///3000///false///1383///1315///-2000///40///120///53///null///null///2///beige///xseparatex///impress///codes///dys///codes///<script type="text/javascript">
+   function show(id){
+      var doc = document.getElementById(id);
+      doc.style.display = 'block';
+   }
+</script>
+<pre>
+&lt;p&gt;Writes code languages  from the interface too!&lt;/p&gt;
+&lt;a onclick="show('hello');"  id="clicme" &gt;CLIC ME&lt;/a&gt;
+&lt;h1 id="hello" style="display:none" &gt;
+           HELLO WORLD
+&lt;/h1&gt;
+</pre>
+Writes code languages  from the interface too!
+<a onclick="show('hello');"  id="clicme" >CLIC ME</a>
+<h1 id="hello" style="display:none" >
+           HELLO WORLD
+</h1>
+///3000///false///5037///0//////182///0///0/////////4///beige///xseparatex///impress///getdys///dys///get dys !///<a href="../../#/app/4">Download from DYS</a>
+///3000///false///0///0///-198///0///0///0//////dys-text-logo778.png///1///beige///
