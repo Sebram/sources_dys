@@ -1,0 +1,753 @@
+/*
+ * EditSlide.java  (To edit slide in opened project)
+ *
+ * Created on 23 mai 2015, 22:26:47
+ * 
+ * Copyright © <2015>  <Sebastien Abraham Koné ("Sebram")>
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version. 
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * Contact <Sebastien Abraham Koné ("Sebram")> doyourslide@gmail.com
+ */
+package Dys.reveals;
+
+import Dys.impress.iProject;
+import java.awt.Color;
+import java.awt.Desktop;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JColorChooser;
+import javax.swing.JOptionPane;
+
+ /**
+ *
+ */
+public class revOpenedSlideEdit extends javax.swing.JDialog {
+    
+    private String filename;
+    private String projectname;
+    private ArrayList<String> liste_direction = new ArrayList<String>();
+    private ArrayList<String> liste_titre = new ArrayList<String>();
+    private ArrayList<String> liste_texte = new ArrayList<String>();
+    private ArrayList<String> liste_pagetitle = new ArrayList<String>();
+    private ArrayList<String> liste_textanim = new ArrayList<String>();
+    private ArrayList<String> liste_bganim = new ArrayList<String>();
+    private ArrayList<String> liste_bg = new ArrayList<String>();
+    
+    private ArrayList<Slide> lastlist = new ArrayList<Slide>();
+    private String new_text;
+    private String new_title;
+    private String new_page_title;
+    private String new_theme;
+    private String new_text_anim;
+    private String new_bg_anim;
+    private String new_direction="";
+    private String selected_title;
+    private int indice_slide;
+    private int nb_slides;    
+    private String background_color;
+    private String image_path;        
+    Color jColorChooser1;
+    Color jColorChooser2;
+    Slide new_slide;
+    Slide sc ;    
+        
+    public boolean state = false;
+    public static boolean isClosed;
+    public static boolean savestate = false;
+    
+    // true si on édite un slide durant la creation du projet (en passant par la combobox)
+    // false si on édite un slide dans un projet existant et aucun projet n'est deja ouvert
+    public boolean comboState=false;
+    private String selectedTxt;
+    
+    
+    /** Creates new form EditSlide */
+    public revOpenedSlideEdit(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+        initComponents();
+        this.setLocationRelativeTo(null); 
+        isClosed = false;
+        String [] titres = new String[Project.slideList.size()];
+        for(int i = 0;i<Project.slideList.size();i++){
+            titres[i]=Project.slideList.get(i).slidetitle;  
+
+        }
+        // ajout des items dans la combobox des titres de slide
+        DefaultComboBoxModel combo = new javax.swing.DefaultComboBoxModel(titres);        
+        jComboBox1.setModel(combo);
+        jLabel3.setVisible(true);
+        try
+        {
+        
+            indice_slide = jComboBox1.getSelectedIndex();                                                     
+            jTextField4.setText(Project.slideList.get(indice_slide).slidetitle);        
+            jTextArea1.setText(Project.slideList.get(indice_slide).text); 
+        
+        }catch(Exception e){}
+        
+        if(Project.projectName == null)
+        {
+            jLabel4.setText(Project.projectName2.toUpperCase());
+        }
+        
+        else {
+            jLabel4.setText(Project.projectName.toUpperCase());
+        }
+        
+        if(combo.getSize()>0){
+            if("slide".equals(Project.slideList.get(indice_slide).anim)) jComboBox5.setSelectedIndex(0);
+            else if("zoom".equals(Project.slideList.get(indice_slide).anim)) jComboBox5.setSelectedIndex(1);
+            else if("convex".equals(Project.slideList.get(indice_slide).anim)) jComboBox5.setSelectedIndex(2);
+            else if("concave".equals(Project.slideList.get(indice_slide).anim)) jComboBox5.setSelectedIndex(3);
+            else if("fade".equals(Project.slideList.get(indice_slide).anim)) jComboBox5.setSelectedIndex(4);         
+        }
+        jComboBox3.setVisible(false);
+    }
+
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jFileChooser2 = new javax.swing.JFileChooser();
+        jPanel1 = new javax.swing.JPanel();
+        jComboBox1 = new javax.swing.JComboBox();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jTextField4 = new javax.swing.JTextField();
+        jComboBox4 = new javax.swing.JComboBox();
+        jLabel9 = new javax.swing.JLabel();
+        jComboBox5 = new javax.swing.JComboBox();
+        jLabel10 = new javax.swing.JLabel();
+        jComboBox6 = new javax.swing.JComboBox();
+        jLabel11 = new javax.swing.JLabel();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jComboBox3 = new javax.swing.JComboBox();
+        infoBtn = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 225, 255), 8));
+
+        jComboBox1.setFont(new java.awt.Font("Arial", 0, 14));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+        jComboBox1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jComboBox1FocusGained(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 14));
+        jLabel1.setText("Séléctionnez un slide ci-dessous pour le modifier : ");
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setFont(new java.awt.Font("Arial", 0, 24));
+        jTextArea1.setRows(5);
+        jTextArea1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jTextArea1MouseReleased(evt);
+            }
+        });
+        jTextArea1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextArea1KeyPressed(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTextArea1);
+
+        jButton1.setFont(new java.awt.Font("Arial", 0, 14));
+        jButton1.setText("Enregistrer la modification");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setFont(new java.awt.Font("Arial", 0, 14));
+        jButton2.setText("Afficher dans le navigateur");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setFont(new java.awt.Font("Arial", 0, 14));
+        jButton3.setText("Fermer");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setFont(new java.awt.Font("Arial", 0, 14));
+        jButton4.setText("Ajouter un slide");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setFont(new java.awt.Font("Arial", 0, 14));
+        jLabel8.setText("Titre du slide:");
+
+        jTextField4.setFont(new java.awt.Font("Arial", 0, 14));
+        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField4ActionPerformed(evt);
+            }
+        });
+
+        jComboBox4.setFont(new java.awt.Font("Arial", 0, 14));
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "black", "white", "league", "sky", "beige", "simple", "night", "serif", "moon", "solarized" }));
+        jComboBox4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox4ActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("Arial", 0, 14));
+        jLabel9.setText("Changer le thème du projet:");
+
+        jComboBox5.setFont(new java.awt.Font("Arial", 0, 14));
+        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "slide", "zoom", "convex", "concave", "fade" }));
+        jComboBox5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox5ActionPerformed(evt);
+            }
+        });
+
+        jLabel10.setFont(new java.awt.Font("Arial", 0, 14));
+        jLabel10.setText("Texte animation:");
+
+        jComboBox6.setFont(new java.awt.Font("Arial", 0, 14));
+        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "slide", "zoom", "convex", "concave", "fade" }));
+
+        jLabel11.setFont(new java.awt.Font("Arial", 0, 14));
+        jLabel11.setText("Background animation:");
+
+        jButton8.setFont(new java.awt.Font("Arial", 0, 14));
+        jButton8.setText("Background-color");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setFont(new java.awt.Font("Arial", 0, 14));
+        jButton9.setText("Background-image");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("EDITER UN SLIDE");
+
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo-dys-icon128.png"))); // NOI18N
+        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 18));
+
+        jLabel5.setFont(new java.awt.Font("Arial", 2, 12));
+        jLabel5.setText("(Double cliquez sur la liste pour l'actualiser lorsque vous faite des modifications!)");
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { " ", "oui", "non" }));
+        jComboBox2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox2ItemStateChanged(evt);
+            }
+        });
+        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox2ActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setFont(new java.awt.Font("Arial", 2, 12));
+        jLabel7.setText("Afficher le titre du projet sur toutes les pages ?");
+
+        jLabel12.setFont(new java.awt.Font("Arial", 2, 12));
+        jLabel12.setText("(Choisissez non pour n'afficher le titre que sur la première page)");
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Choisissez une balise", "section", "a", "b", "button", "cite", "div", "em", "form",  "h1", "h2", "h3", "p", "ul", "li", "img", "input", "label", "legend", "pre", "code", "script", "select", "option", "span", "strong", "style", "table", "tbody", "td", "th", "textarea", "video" }));
+        jComboBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox3ActionPerformed(evt);
+            }
+        });
+        jComboBox3.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jComboBox3FocusGained(evt);
+            }
+        });
+
+        infoBtn.setText("Info !");
+        infoBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                infoBtnActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel1Layout.createSequentialGroup()
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                .add(jPanel1Layout.createSequentialGroup()
+                                    .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                        .add(jComboBox1, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .add(jLabel2)
+                                        .add(jLabel5, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 264, Short.MAX_VALUE))
+                                .add(jPanel1Layout.createSequentialGroup()
+                                    .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                                            .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel1Layout.createSequentialGroup()
+                                                .add(jLabel11)
+                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                                                            .add(jPanel1Layout.createSequentialGroup()
+                                                                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                                                    .add(jButton8, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 177, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                                    .add(jButton9, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 180, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                                                .add(86, 86, 86))
+                                                            .add(jPanel1Layout.createSequentialGroup()
+                                                                .add(infoBtn, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 80, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)))
+                                                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                                                            .add(jPanel1Layout.createSequentialGroup()
+                                                                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                                                    .add(jComboBox4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 177, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                                    .add(jLabel9))
+                                                                .add(55, 55, 55))
+                                                            .add(jComboBox3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 233, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                                                    .add(jComboBox6, 0, 526, Short.MAX_VALUE)
+                                                    .add(jComboBox5, 0, 526, Short.MAX_VALUE)))
+                                            .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel1Layout.createSequentialGroup()
+                                                .add(jLabel8)
+                                                .add(18, 18, 18)
+                                                .add(jTextField4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)))
+                                        .add(jLabel10))
+                                    .add(24, 24, 24)))
+                            .add(jPanel1Layout.createSequentialGroup()
+                                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 683, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(18, 18, 18)))
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                            .add(jButton4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                            .add(jButton2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 136, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jButton3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                            .add(jButton1))
+                        .add(628, 628, 628)
+                        .add(jLabel4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 334, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(20, 20, 20)
+                        .add(jLabel7)
+                        .add(18, 18, 18)
+                        .add(jComboBox2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 101, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(20, 20, 20)
+                        .add(jLabel12, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 351, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jLabel4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 29, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(jLabel2)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(jLabel1)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jLabel5)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 39, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(12, 12, 12)
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel8)
+                            .add(jTextField4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 27, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(18, 18, 18)
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel10)
+                            .add(jComboBox5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(18, 18, 18)
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel11)
+                            .add(jComboBox6, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(18, 18, 18)
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jButton8)
+                            .add(jLabel9))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jButton9)
+                            .add(jComboBox4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 23, Short.MAX_VALUE)
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel7)
+                            .add(jComboBox2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(jLabel12)
+                            .add(infoBtn)
+                            .add(jComboBox3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 120, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 131, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(18, 18, 18)
+                        .add(jButton2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 45, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(18, 18, 18)
+                        .add(jButton4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 43, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(18, 18, 18)
+                        .add(jButton3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 43, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(18, 18, 18)
+                        .add(jButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 47, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .add(73, 73, 73))
+        );
+
+        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 964, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+    
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        
+        indice_slide = jComboBox1.getSelectedIndex();                                                     
+        selected_title = jComboBox1.getSelectedItem().toString(); 
+        
+        // On place les titres dans les textfields               
+        jTextArea1.setText(Project.slideList.get(indice_slide).text);  
+        jTextField4.setText(Project.slideList.get(indice_slide).slidetitle);
+        
+        
+        if(jTextField4.getText() != null){comboState = true;}
+        
+        String tmpnew_txt = jTextArea1.getText();
+        new_text  = tmpnew_txt;         
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    
+    
+    // ENREGISTREMENT DES MODIFICATIONS
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        indice_slide = jComboBox1.getSelectedIndex(); 
+        
+        new_text = jTextArea1.getText(); // On récupere le texte  
+        new_text_anim = jComboBox5.getSelectedItem().toString(); // On récupere anim 
+        new_bg_anim = jComboBox6.getSelectedItem().toString(); // On récupere anim 
+        new_title = jTextField4.getText(); // On récupere le texte  
+        Project.projectName = jLabel4.getText();
+        Project.projectName2 = Project.projectName;
+        String mess = "Vous confirmez ?";
+        String title="Enregistrement";
+        int reply = JOptionPane.showConfirmDialog(null, mess, title, JOptionPane.YES_NO_OPTION);
+        if(reply == JOptionPane.YES_OPTION){
+            Progress p = new Progress();
+            // On créer une nouvel obj Slide avec les nouveaux textes        
+            if(state == true){  // Si c'est true c'est des couleurs si c'est false c'est une image
+                if(background_color==null) background_color = Project.slideList.get(indice_slide).bg;
+                new_slide = new Slide(
+                        background_color, 
+                        new_text_anim, 
+                        new_bg_anim,
+                        new_title, 
+                        new_text, 
+                        new_direction,
+                        Project.projectName,
+                        new_theme
+                    ); 
+            }
+
+            if(state == false){  // Si c'est true c'est des couleurs si c'est false c'est une image            
+                if(image_path==null) image_path = Project.slideList.get(indice_slide).bg;
+            new_slide = new Slide(
+                    image_path, 
+                    new_text_anim, 
+                    new_bg_anim,
+                    new_title, 
+                    new_text, 
+                    new_direction,
+                    Project.projectName,
+                    new_theme
+                ); 
+            }
+
+            // On remplis la liste d'objet SlideContent avec les nouveaux objets cr&éés
+            Project.slideList.set(indice_slide, new_slide); 
+
+            WriteFile newSlide  = new WriteFile();
+
+            new_theme = jComboBox4.getSelectedItem().toString();        
+            if(new_theme != null){
+                Project.setThemeName(new_theme); /// Pour récupérer le thème dans writeFile  
+            }
+            else{
+                ReadFile rf = new ReadFile();
+                try {
+                    rf.readTmpCssTheme();
+                    Project.setThemeName(rf.getTmpCssTheme());
+                    
+                } catch (IOException ex) {
+                    Logger.getLogger(revOpenedSlideEdit.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            newSlide.putContenuInHtml(Project.slideList);
+
+           savestate = true;  
+        }
+        //JOptionPane.showMessageDialog(null, "Modifié !");
+                        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    
+    
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:        
+         File indexfile = new File(Project.mydeskpath+"/Dys_projects/"+Project.slideList.get(0).pagetitle +"/index.html");
+            try {
+                Desktop desk = Desktop.getDesktop();
+                 if(indexfile.exists()) desk.open(indexfile);                                            
+            } catch (IOException ex) {
+                Logger.getLogger(revOpenedSlideEdit.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    
+    //  FERMER
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        Project.slideList2 = Project.slideList;
+        Project.setState(true);   
+        Project.slideList = new ArrayList<Slide>();
+        isClosed = true;
+        Project.projectName = null;
+        iProject.iprojectName = null;
+        Progress p = new Progress();
+        dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        revAddSlide A = new revAddSlide(new javax.swing.JFrame(), true);
+        A.addWindowListener(new java.awt.event.WindowAdapter() {
+            
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                dispose();                
+            }
+        });
+        A.setVisible(true);         
+        lastlist = Project.slideList;
+        
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    
+    // ---------------- ********* AJOUTER UN SLIDE ********--------------//
+    
+    // Ajouter une couleur au nouveau slide
+    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField4ActionPerformed
+
+    private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox4ActionPerformed
+
+    private void jComboBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox5ActionPerformed
+
+    
+       // modifier couleur
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        jColorChooser2  = JColorChooser.showDialog(this, projectname, jColorChooser2); // Créer la fenetre de choix de couleur
+        int R = jColorChooser2.getRed(); int G = jColorChooser2.getGreen(); int B = jColorChooser2.getBlue(); // récupère les valeurs choisies en RGB
+        background_color = "rgb("+R+","+G+","+B+")"; 
+        state = true;        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // --- TODO add your handling code here:
+        ImageChooser imch = new ImageChooser(new javax.swing.JFrame(), true);
+        imch.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                dispose();
+            }
+        });
+       imch.setVisible(true);
+       String chaine = imch.file.getAbsolutePath();
+       String c [] = chaine.split("/");
+       int n = c.length;
+       filename = c[n-1];
+       File src = new File(chaine);
+       File dest = new File(Project.mydeskpath+"/Dys_projects/"+Project.projectName+"/img/" + filename); 
+       try {
+        CopyDirectory.copyFolder(src, dest);
+       } catch(IOException ex) {
+               Logger.getLogger(SlideForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+       image_path = "img/" + filename;
+       state = false;
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jComboBox1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBox1FocusGained
+        String [] titres = new String[Project.slideList.size()];
+        
+        
+        for(int i = 0;i<Project.slideList.size();i++){
+            titres[i]=Project.slideList.get(i).slidetitle;           
+System.out.println(titres[i]);
+        }
+        // ajout des items dans la combobox des titres de slide
+        DefaultComboBoxModel combo = new javax.swing.DefaultComboBoxModel(titres);        
+        jComboBox1.setModel(combo);
+    }//GEN-LAST:event_jComboBox1FocusGained
+
+    private void jComboBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox2ItemStateChanged
+
+        switch (jComboBox1.getSelectedIndex()) {             case 1:                 WriteFile.isTitle = true;                 break;             case 2:                 WriteFile.isTitle = false;                 break;         }     }//GEN-LAST:event_jComboBox2ItemStateChanged
+
+    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+
+         switch (jComboBox1.getSelectedIndex()) {             case 1:                 WriteFile.isTitle = true;                 break;             case 2:                 WriteFile.isTitle = false;                 break;         }     }//GEN-LAST:event_jComboBox2ActionPerformed
+
+    
+    
+    private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
+         int num = jComboBox3.getSelectedIndex();
+        Brackets balise = new Brackets();
+        String Tx =  balise.doBrackets(num, selectedTxt);
+        selectedTxt = Tx;
+         jTextArea1.replaceSelection(selectedTxt);
+    }//GEN-LAST:event_jComboBox3ActionPerformed
+
+    private void jComboBox3FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jComboBox3FocusGained
+         selectedTxt = jTextArea1.getSelectedText();
+    }//GEN-LAST:event_jComboBox3FocusGained
+
+    private void jTextArea1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextArea1MouseReleased
+        // TODO add your handling code here:
+        if(jTextArea1.getSelectedText() != null){
+            jComboBox3.setVisible(true);
+        }else jComboBox3.setVisible(false);
+    }//GEN-LAST:event_jTextArea1MouseReleased
+
+    private void jTextArea1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea1KeyPressed
+        if((evt.getModifiers()==KeyEvent.CTRL_MASK)) {
+            selectedTxt = jTextArea1.getSelectedText();
+            
+            if(jTextArea1.getSelectedText() != null) {
+                
+               jComboBox3.setVisible(true);
+               infoBtn.setVisible(true);
+            }
+            else{ 
+                    jComboBox3.setVisible(false);
+                    infoBtn.setVisible(false);
+                }
+        }
+    }//GEN-LAST:event_jTextArea1KeyPressed
+
+    private void infoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_infoBtnActionPerformed
+        JOptionPane.showMessageDialog(null, "Séléctionner votre texte ou un mot \n et presser la touche \"Ctrl\" pour afficher la liste des balises! ");
+    }//GEN-LAST:event_infoBtnActionPerformed
+
+    
+    
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton infoBtn;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JComboBox jComboBox3;
+    private javax.swing.JComboBox jComboBox4;
+    private javax.swing.JComboBox jComboBox5;
+    private javax.swing.JComboBox jComboBox6;
+    private javax.swing.JFileChooser jFileChooser2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTextField4;
+    // End of variables declaration//GEN-END:variables
+}
